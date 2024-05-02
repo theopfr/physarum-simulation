@@ -26,8 +26,6 @@ float sensorAngle = 90;
 float moveAngle = 45;
 int sensorRadius = 9;  // affects frame rate
 int sensorLength = 13;
-boolean randomSteer = false;
-int randomSteerAngle = 0;
 boolean restart = false;
 
 // GUI variables
@@ -165,19 +163,6 @@ int sensePheromones(PVector cellPosition, PVector cellDirection) {
   else if (intensitySensor2 > intensitySensor1 && intensitySensor2 > intensitySensor0) {
     turnChoice = -1;
   }
-  else if (randomSteer && intensitySensor1 == intensitySensor2 && intensitySensor1 > intensitySensor0) {
-    // If no pheromone differences are detected turn randomly if wantd
-    turnChoice = (int) random(1, 3);
-    if (turnChoice == 1) { turnChoice = 1; }
-    else { turnChoice = -1; }
-  }
-  else if (randomSteer) {
-    // If no pheromone differences are detected turn randomly if wantd
-    turnChoice = (int) random(0, 3);
-    if (turnChoice == 0) { turnChoice = 0; }
-    else if (turnChoice == 1){ turnChoice = 1; }
-    else if (turnChoice == 2){ turnChoice = -1; }
-  }
 
   return turnChoice;
 }
@@ -202,11 +187,8 @@ void moveCell(int cellIdx) {
   // Sense pheromones and choose direction to move
   int turnDirection = sensePheromones(cellPosition, cellDirection);
   
-  // Randomly change movement angle by a little bit if wanted
-  float randomSteerStrength = random(-1, 1) * randomSteerAngle;
-  
   // Calculate new cell position
-  PVector newDirection = turnVector(cellDirection, turnDirection * (moveAngle - randomSteerStrength));
+  PVector newDirection = turnVector(cellDirection, turnDirection * moveAngle);
   PVector newPosition = new PVector(
     cellPosition.x + speed * newDirection.x,
     cellPosition.y + speed * newDirection.y
@@ -283,7 +265,7 @@ void setup() {
     .setValue(45)
     .moveTo("parameters");
   cp5.addSlider("sensorRadius")
-    .setLabel("sensor reach")
+    .setLabel("sensor radius")
     .setPosition(10, 120)
     .setSize(100, 20)
     .setRange(1, 15)

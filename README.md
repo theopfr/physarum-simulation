@@ -10,7 +10,7 @@ Install Processing from the [official website](https://processing.org/download) 
 Download [windows-amd64.zip](./assets/windows-amd64.zip), extract it and execute ``simulation.exe`` (trust me...).
 
 ### 📽️ Slides:
-To find out how it all works check out [this presention]().
+To find out how it all works check out [this presentation](./assets/physarum.pdf).
 
 ### 👀 Preview:
 Parameters             |  Other controls
